@@ -1,4 +1,4 @@
-// Copyright 2021 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
+// Copyright 2021-2022 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -31,9 +31,9 @@ type Login struct {
 }
 
 type Signal struct {
-	Signal string `json:"signal"`
-	Peer   string `json:"peer"`
-	Data   []byte `json:"data"`
+	Signal string      `json:"signal"`
+	Peer   string      `json:"peer"`
+	Data   interface{} `json:"data"`
 }
 
 // Connect to signal server and send login signal
@@ -92,13 +92,12 @@ func (cli SignalClient) waitAnswer() (message []byte, err error) {
 	_, message, err = cli.conn.Read(cli.ctx)
 	if err != nil {
 		log.Println("Read message error:", err)
-		return
 	}
 	return
 }
 
 // WriteOffer send offer signal
-func (cli SignalClient) WriteOffer(peer string, offer []byte) (answer []byte, err error) {
+func (cli SignalClient) WriteOffer(peer string, offer interface{}) (answer []byte, err error) {
 	log.Printf("Send offer to %s", peer)
 	err = cli.writeSignal("offer", peer, offer)
 	if err != nil {
@@ -109,32 +108,26 @@ func (cli SignalClient) WriteOffer(peer string, offer []byte) (answer []byte, er
 }
 
 // WriteAnswer send answer signal
-func (cli SignalClient) WriteAnswer(peer string, answer []byte) (err error) {
+func (cli SignalClient) WriteAnswer(peer string, answer interface{}) (err error) {
 	log.Printf("Send answer to %s", peer)
 	err = cli.writeSignal("answer", peer, answer)
-	if err != nil {
-		return
-	}
 	return
 }
 
 // WriteCandidate send candidate signal
-func (cli SignalClient) WriteCandidate(peer string, candidate []byte) (err error) {
+func (cli SignalClient) WriteCandidate(peer string, candidate interface{}) (err error) {
 	log.Printf("Send ICECandidate to %s", peer)
-	cli.writeSignal("candidate", peer, candidate)
-	if err != nil {
-		return
-	}
+	err = cli.writeSignal("candidate", peer, candidate)
 	return
 }
 
 // writeSignal send signal
-func (cli SignalClient) writeSignal(signal, peer string, data []byte) (err error) {
+func (cli SignalClient) writeSignal(signal, peer string, data interface{}) (err error) {
+
 	d, _ := json.Marshal(Signal{signal, peer, data})
 	err = cli.conn.Write(cli.ctx, websocket.MessageText, d)
 	if err != nil {
 		log.Println("Write message error:", err)
-		return
 	}
 	return
 }
