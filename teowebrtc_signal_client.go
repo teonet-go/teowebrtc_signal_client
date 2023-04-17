@@ -8,11 +8,13 @@ package teowebrtc_signal_client
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"net/url"
 
+	"github.com/teonet-go/teowebrtc_log"
 	"nhooyr.io/websocket"
 )
+
+var log = teowebrtc_log.GetLog(teowebrtc_log.Package_teowebrtc_signal_client)
 
 // New signal server client
 func New() *SignalClient {

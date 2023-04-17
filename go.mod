@@ -1,7 +1,13 @@
 module github.com/teonet-go/teowebrtc_signal_client
 
-go 1.19
+// For testing
+// replace github.com/teonet-go/teowebrtc_log => ../teowebrtc_log
 
-require nhooyr.io/websocket v1.8.7
+go 1.20
 
-require github.com/klauspost/compress v1.15.12 // indirect
+require (
+	github.com/teonet-go/teowebrtc_log v0.0.1
+	nhooyr.io/websocket v1.8.7
+)
+
+require github.com/klauspost/compress v1.16.4 // indirect
