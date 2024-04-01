@@ -7,7 +7,5 @@ go 1.20
 
 require (
 	github.com/teonet-go/teowebrtc_log v0.0.1
-	nhooyr.io/websocket v1.8.7
+	nhooyr.io/websocket v1.8.10
 )
-
-require github.com/klauspost/compress v1.16.4 // indirect

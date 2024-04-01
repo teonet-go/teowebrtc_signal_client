@@ -39,8 +39,8 @@ type Signal struct {
 }
 
 // Connect to signal server and send login signal
-func (cli *SignalClient) Connect(scheme, signalServerAddr, peerLogin string) (err error) {
-	u := url.URL{Scheme: scheme, Host: signalServerAddr, Path: "/signal"}
+func (cli *SignalClient) Connect(scheme, host, peerLogin string) (err error) {
+	u := url.URL{Scheme: scheme, Host: host, Path: "/signal"}
 	log.Printf("connecting to %s\n", u.String())
 	ctx, cancel := context.WithCancel(context.Background())
 	c, _, err := websocket.Dial(ctx, u.String(), nil)
@@ -79,6 +79,12 @@ func (cli *SignalClient) Close() {
 	cli.cancel()
 }
 
+// Ping sends ping to peer and waits for pong. Ping should be sent concurrently
+// with reader.
+func (cli *SignalClient) Ping() error {
+	return cli.conn.Ping(cli.ctx)
+}
+
 // WaitSignal wait offer signal received
 func (cli SignalClient) WaitSignal() (sig Signal, err error) {
 	message, err := cli.waitAnswer()
@@ -99,7 +105,9 @@ func (cli SignalClient) waitAnswer() (message []byte, err error) {
 }
 
 // WriteOffer send offer signal
-func (cli SignalClient) WriteOffer(peer string, offer interface{}) (answer []byte, err error) {
+func (cli SignalClient) WriteOffer(peer string, offer interface{}) (
+	answer []byte, err error) {
+
 	log.Printf("send offer to %s", peer)
 	err = cli.writeSignal("offer", peer, offer)
 	if err != nil {
@@ -110,21 +118,26 @@ func (cli SignalClient) WriteOffer(peer string, offer interface{}) (answer []byt
 }
 
 // WriteAnswer send answer signal
-func (cli SignalClient) WriteAnswer(peer string, answer interface{}) (err error) {
+func (cli SignalClient) WriteAnswer(peer string, answer interface{}) (
+	err error) {
+
 	log.Printf("send answer to %s", peer)
 	err = cli.writeSignal("answer", peer, answer)
 	return
 }
 
 // WriteCandidate send candidate signal
-func (cli SignalClient) WriteCandidate(peer string, candidate interface{}) (err error) {
+func (cli SignalClient) WriteCandidate(peer string, candidate interface{}) (
+	err error) {
+
 	log.Printf("send ICECandidate to %s\n", peer)
 	err = cli.writeSignal("candidate", peer, candidate)
 	return
 }
 
 // writeSignal send signal
-func (cli SignalClient) writeSignal(signal, peer string, data interface{}) (err error) {
+func (cli SignalClient) writeSignal(signal, peer string, data interface{}) (
+	err error) {
 
 	d, _ := json.Marshal(Signal{signal, peer, data})
 	err = cli.conn.Write(cli.ctx, websocket.MessageText, d)
