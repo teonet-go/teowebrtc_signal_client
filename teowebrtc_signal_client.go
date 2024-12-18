@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
+// Copyright 2021-2024 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,8 +10,8 @@ import (
 	"encoding/json"
 	"net/url"
 
+	"github.com/coder/websocket"
 	"github.com/teonet-go/teowebrtc_log"
-	"nhooyr.io/websocket"
 )
 
 var log = teowebrtc_log.GetLog(teowebrtc_log.Package_teowebrtc_signal_client)
