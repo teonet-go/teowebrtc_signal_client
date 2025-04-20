@@ -1,4 +1,4 @@
-github.com/coder/websocket v1.8.12 h1:5bUXkEPPIbewrnkU8LTCLVaxi4N4J8ahufH2vlo4NAo=
-github.com/coder/websocket v1.8.12/go.mod h1:LNVeNrXQZfe5qhS9ALED3uA+l5pPqvwXg3CKoDBB2gs=
-github.com/teonet-go/teowebrtc_log v0.2.0 h1:O2/1onQP9u8yGNN44v9b9qK7dF9MV+MLo+aeaplZBLc=
-github.com/teonet-go/teowebrtc_log v0.2.0/go.mod h1:dw2yUk20D69vr3lREm03gcKTHH/lu4B/bPua+fMOc4s=
+github.com/coder/websocket v1.8.13 h1:f3QZdXy7uGVz+4uCJy2nTZyM0yTBj8yANEHhqlXZ9FE=
+github.com/coder/websocket v1.8.13/go.mod h1:LNVeNrXQZfe5qhS9ALED3uA+l5pPqvwXg3CKoDBB2gs=
+github.com/teonet-go/teowebrtc_log v0.2.1 h1:MGXwA/UM5CL3zdKyESJiKCIWa719uswKIYbLGi1yzus=
+github.com/teonet-go/teowebrtc_log v0.2.1/go.mod h1:hEtXAwn0WxJFSqJUw9cx21p975iDeSnhu7sus4G7sVY=
